@@ -1,5 +1,5 @@
 #!/usr/bin/env python3 
-
+import random
 
 class ATMMachine(object):
     """
@@ -12,42 +12,60 @@ class ATMMachine(object):
         """Withdraw (amount) from (account_number)"""
         "Tengo que identificar la cuenta de la que quiero sacar guita"
         num_cuentas = [i.account_number for i in self.accounts] 
-        indice = num_cuentas.index(account_number)
-        cuenta = self.accounts[indice]
-        cuenta.withdraw(amount) 
+        try: 
+          indice = num_cuentas.index(account_number)
+          cuenta = self.accounts[indice]
+          cuenta.withdraw(amount) 
+        except ValueError:
+          print 'No existe la Cuenta'
+          return
         
     def make_a_deposit(self, account_number, amount):
         """Deposit (amount) into (account_number)"""
-        num_cuentas = [i.account_number for i in self.accounts] 
-        indice = num_cuentas.index(account_number)
-        cuenta = self.accounts[indice]
-        cuenta.deposit(amount) 
+        num_cuentas = [i.account_number for i in self.accounts]
+        try: 
+          indice = num_cuentas.index(account_number)
+          cuenta = self.accounts[indice]
+          cuenta.deposit(amount)
+        except ValueError:
+          print 'No existe la Cuenta'
+          return
 
     def print_account_balance(self, account_number):
         """Print the Account Balance from (account_number)"""
         num_cuentas = [i.account_number for i in self.accounts] 
-        indice = num_cuentas.index(account_number)
-        cuenta = self.accounts[indice]
-        print cuenta.check_balance() 
+        try:
+          indice = num_cuentas.index(account_number)
+          cuenta = self.accounts[indice]
+          print cuenta.check_balance() 
+        except ValueError:
+          print 'No existe la Cuenta'
+          return    
     
     def make_a_transfer(self, from_account_number, to_account_number, amount):
         """Transfer (amount) from (from_account_number) to (to_account_number)"""
         num_cuentas = [i.account_number for i in self.accounts] 
-        indice_salida = num_cuentas.index(from_account_number)
-        cuenta_salida = self.accounts[indice_salida]
-        indice_llegada = num_cuentas.index(to_account_number)
-        cuenta_llegada = self.accounts[indice_llegada]
-        cuenta_salida.transfer_money(amount, cuenta_llegada)
-
-    def create_new_account(self, account_number, clients_name, initial_balance):
+        try:
+          indice_salida = num_cuentas.index(from_account_number)
+          cuenta_salida = self.accounts[indice_salida]
+          indice_llegada = num_cuentas.index(to_account_number)
+          cuenta_llegada = self.accounts[indice_llegada]
+          cuenta_salida.transfer_money(amount, cuenta_llegada)
+       except ValueError:
+          print 'No existe la Cuenta'
+          return    
+          
+    def create_new_account(self, clients_name, initial_balance):
         """Create a new account that belongs to (clients_name) and has the (initial_balance)"""
-        new_account = Account(account_number, clients_name, initial_balance)
+        new_account = Account(clients_name, initial_balance)
         self.accounts.append(new_account)
         
 class Account(object):
     """This class represents a simple Account"""
-    def __init__(self, account_number, clients_name, initial_balance = 0.0):
-        self.account_number = account_number
+    def __init__(self, clients_name, initial_balance = 0.0):
+        "Buscamos que el numero de cuenta sea un numero aleatorio entre 0 y 1000"
+        self.account_number = random.randint(0,1000)
+        "Falta asegurarse de que este número es único"
         self.clients_name = clients_name
         self.balance = initial_balance
 
