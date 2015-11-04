@@ -10,26 +10,40 @@ class ATMMachine(object):
 
     def make_a_withdraw(self, account_number, amount):
         """Withdraw (amount) from (account_number)"""
-        pass
-
+        "Tengo que identificar la cuenta de la que quiero sacar guita"
+        num_cuentas = [i.account_number for i in self.accounts] 
+        indice = num_cuentas.index(account_number)
+        cuenta = self.accounts[indice]
+        cuenta.withdraw(amount) 
+        
     def make_a_deposit(self, account_number, amount):
         """Deposit (amount) into (account_number)"""
-        pass
+        num_cuentas = [i.account_number for i in self.accounts] 
+        indice = num_cuentas.index(account_number)
+        cuenta = self.accounts[indice]
+        cuenta.deposit(amount) 
 
     def print_account_balance(self, account_number):
         """Print the Account Balance from (account_number)"""
-        pass
+        num_cuentas = [i.account_number for i in self.accounts] 
+        indice = num_cuentas.index(account_number)
+        cuenta = self.accounts[indice]
+        cuenta.check_balance() 
     
     def make_a_transfer(self, from_account_number, to_account_number, amount):
         """Transfer (amount) from (from_account_number) to (to_account_number)"""
-        pass
+        num_cuentas = [i.account_number for i in self.accounts] 
+        indice_salida = num_cuentas.index(from_account_number)
+        cuenta_salida = self.accounts[indice_salida]
+        indice_llegada = num_cuentas.index(to_account_number)
+        cuenta_llegada = self.accounts[indice_llegada]
+        cuenta_salida.transfer_money(self, amount, cuenta_llegada)
 
     def create_new_account(self, account_number, clients_name, initial_balance):
         """Create a new account that belongs to (clients_name) and has the (initial_balance)"""
         new_account = Account(account_number, clients_name, initial_balance)
         self.accounts.append(new_account)
-
-
+        
 class Account(object):
     """This class represents a simple Account"""
     def __init__(self, account_number, clients_name, initial_balance = 0.0):
@@ -44,7 +58,6 @@ class Account(object):
         else:
            self.balance -= amount
            
-
     def deposit(self, amount):
         """Let's receive some money!"""
         self.balance += amount
