@@ -28,7 +28,7 @@ class ATMMachine(object):
         num_cuentas = [i.account_number for i in self.accounts] 
         indice = num_cuentas.index(account_number)
         cuenta = self.accounts[indice]
-        cuenta.check_balance() 
+        print cuenta.check_balance() 
     
     def make_a_transfer(self, from_account_number, to_account_number, amount):
         """Transfer (amount) from (from_account_number) to (to_account_number)"""
@@ -37,7 +37,7 @@ class ATMMachine(object):
         cuenta_salida = self.accounts[indice_salida]
         indice_llegada = num_cuentas.index(to_account_number)
         cuenta_llegada = self.accounts[indice_llegada]
-        cuenta_salida.transfer_money(self, amount, cuenta_llegada)
+        cuenta_salida.transfer_money(amount, cuenta_llegada)
 
     def create_new_account(self, account_number, clients_name, initial_balance):
         """Create a new account that belongs to (clients_name) and has the (initial_balance)"""
