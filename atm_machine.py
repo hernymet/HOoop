@@ -51,21 +51,19 @@ class ATMMachine(object):
           indice_llegada = num_cuentas.index(to_account_number)
           cuenta_llegada = self.accounts[indice_llegada]
           cuenta_salida.transfer_money(amount, cuenta_llegada)
-       except ValueError:
+        except ValueError:
           print 'No existe la Cuenta'
           return    
           
-    def create_new_account(self, clients_name, initial_balance):
+    def create_new_account(self, account_number, clients_name, initial_balance):
         """Create a new account that belongs to (clients_name) and has the (initial_balance)"""
-        new_account = Account(clients_name, initial_balance)
+        new_account = Account(account_number, clients_name, initial_balance)
         self.accounts.append(new_account)
         
 class Account(object):
     """This class represents a simple Account"""
-    def __init__(self, clients_name, initial_balance = 0.0):
-        "Buscamos que el numero de cuenta sea un numero aleatorio entre 0 y 1000"
-        self.account_number = random.randint(0,1000)
-        "Falta asegurarse de que este número es único"
+    def __init__(self, account_number, clients_name, initial_balance = 0.0):
+        self.account_number = account_number
         self.clients_name = clients_name
         self.balance = initial_balance
 
@@ -121,15 +119,34 @@ def main():
 
         elif selected_option == 2:
             print("Make a deposit:")
+            print("Ingrese el numero de cuenta: ")
+            numero_de_cuenta = int(input("Numero de Cuenta: "))
+            print("Ingrese el importe a depositar")
+            importe = int(input("Importe: "))
+            ATMMachine.make_a_deposit(atm,numero_de_cuenta,importe)
+            
 
         elif selected_option == 3:
             print("Withdraw money:")
+            print("Ingrese el numero de cuenta: ")
+            numero_de_cuenta = int(input("Numero de Cuenta: "))
+            ATMMachine.make_a_withdraw(atm, numero_de_cuenta)
 
         elif selected_option == 4:
             print("Check your balance:")
+            print("Ingrese el numero de cuenta: ")
+            numero_de_cuenta = int(input("Numero de Cuenta: "))
+            ATMMachine.print_account_balance(atm, numero_de_cuenta)
 
         elif selected_option == 5:
             print("Transfer money:")
+            print("Ingrese el numero de cuenta desde donde desea transferir platita: ")
+            numero_de_cuenta_inicial = int(input("Numero de Cuenta Inicial: "))
+            print("Ingrese el numero de cuenta hacia donde desea transferir platita: ")
+            numero_de_cuenta_final = int(input("Numero de Cuenta Final: "))
+            print("Ingrese el importe a transferir")
+            importe = int(input("Importe: "))
+            ATMMachine.make_a_transfer(atm,numero_de_cuenta_inicial,numero_de_cuenta_final,importe)
 
         elif selected_option == 0:
             print("Bye Bye!")
